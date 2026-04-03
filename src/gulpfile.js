@@ -4,6 +4,7 @@ const plugin_country = require('./plugins/country')
 const plugin_city = require('./plugins/city')
 const plugin_cncity = require('./plugins/cncity')
 const plugin_china = require('./plugins/china')
+const plugin_nonchina = require('./plugins/non-china')
 const plugin_cidrmerge = require('./plugins/cidrmerge')
 const plugin_isp = require('./plugins/isp')
 
@@ -53,9 +54,16 @@ const china = () => {
     .pipe(dest('data/special'))
 }
 
+const nonchina = () => {
+  return src('data/country/*.txt')
+    .pipe(plugin_nonchina())
+    .pipe(dest('data/special'))
+}
+
 exports.country = country
 exports.city = city
 exports.cncity = cncity
 exports.china = china
+exports.nonchina = nonchina
 exports.isp = isp
-exports.build = series(country, city, cncity, isp, china)
+exports.build = series(country, city, cncity, isp, china, nonchina)
